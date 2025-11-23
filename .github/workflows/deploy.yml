@@ -22,7 +22,42 @@ jobs:
         ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
 
+    - name: Send files to VPSname: simple-deploy
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
     - name: Send files to VPS
+      run: |
+        scp -o StrictHostKeyChecking=no -r ./frontend/* \
+        ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/simple/blue/
+
+    - name: Switch to BLUE
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+        "sudo rsync -av --delete /var/www/simple/blue/ /var/www/simple/active/"
+
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+        'sudo systemctl restart nginx'
+
       run: |
         scp -r ./frontend/* $SSH_USER@$SSH_HOST:/var/www/simple/blue/
 
