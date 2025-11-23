@@ -24,7 +24,7 @@ jobs:
 
     - name: Send files to VPS
       run: |
-        scp -r ./index.html $SSH_USER@$SSH_HOST:/var/www/simple/blue/
+        scp -r ./frontend/* $SSH_USER@$SSH_HOST:/var/www/simple/blue/
 
     - name: Switch to BLUE
       run: |
