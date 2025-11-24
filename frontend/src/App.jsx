@@ -1,10 +1,8 @@
-import './App.css';
+const color = import.meta.env.VITE_COLOR;
 
-function App() {
-  const color = import.meta.env.VITE_COLOR;
+const background = color === "BLUE" ? "#1E90FF" : "#6DDA6D";
 
-  const background = color === "BLUE" ? "#1E90FF" : "#6DDA6D";
-
+export default function App() {
   return (
     <div style={{
       backgroundColor: background,
@@ -14,11 +12,10 @@ function App() {
       alignItems: "center",
       fontSize: "60px",
       fontWeight: "bold",
-      color: "white"
+      color: "white",
+      textAlign: "center"
     }}>
       Ambiente activo: {color}
     </div>
   );
 }
-
-export default App;

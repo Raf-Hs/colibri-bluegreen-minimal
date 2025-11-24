@@ -7,7 +7,6 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: "./",
-
     define: {
       "import.meta.env.VITE_COLOR": JSON.stringify(env.VITE_COLOR),
     },
