@@ -1,30 +1,32 @@
-name: simple-deploy
+name: Deploy to VPS (Blue/Green)
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /var/www/colibri
 
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+            echo ">>> Pulling latest code"
+            git pull
 
-    - name: Send files to VPS
-      run: |
-        scp -r ./frontend/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/simple/blue/
+            echo ">>> Deploying GREEN"
+            /var/www/colibri/deploy.sh green
 
-    - name: Switch to BLUE
-      run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo rsync -av --delete /var/www/simple/blue/ /var/www/simple/active/"
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo systemctl restart nginx"
+            echo ">>> DONE"
