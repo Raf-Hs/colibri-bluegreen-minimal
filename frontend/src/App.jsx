@@ -1,21 +1,24 @@
-export default function App() {
-  const env = import.meta.env.VITE_ENVIRONMENT;
+import './App.css';
 
-  const color = env === "green" ? "green" : "blue";
+function App() {
+  const color = import.meta.env.VITE_COLOR;
+
+  const background = color === "BLUE" ? "#1E90FF" : "#6DDA6D";
 
   return (
-    <div
-      style={{
-        backgroundColor: color,
-        color: "white",
-        fontSize: "40px",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      AMBIENTE: {env.toUpperCase()}
+    <div style={{
+      backgroundColor: background,
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "60px",
+      fontWeight: "bold",
+      color: "white"
+    }}>
+      Ambiente activo: {color}
     </div>
   );
 }
+
+export default App;
