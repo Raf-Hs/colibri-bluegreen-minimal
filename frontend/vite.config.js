@@ -1,12 +1,13 @@
 import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-
   return {
+    plugins: [react()],
     define: {
-      "import.meta.env.VITE_ENV": JSON.stringify(env.VITE_ENV),
-      "import.meta.env.VITE_COLOR": JSON.stringify(env.VITE_COLOR),
+      "import.meta.env.VITE_ENVIRONMENT": JSON.stringify(env.VITE_ENVIRONMENT),
     },
   };
 });
