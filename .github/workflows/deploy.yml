@@ -1,32 +1,22 @@
-name: Deploy to VPS (Blue/Green)
+name: Deploy to VPS (Blue-Green)
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v0.1.7
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: deployer
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
           script: |
-            cd /var/www/colibri
-
-            echo ">>> Pulling latest code"
-            git pull
-
-            echo ">>> Deploying GREEN"
-            /var/www/colibri/deploy.sh green
-
-            echo ">>> DONE"
+            bash /var/www/app/deploy.sh
