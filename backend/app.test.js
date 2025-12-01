@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../src/app");
+const app = require("./src/app");
 
 describe("Colibri API integration tests", () => {
   test("GET /health debe responder status ok", async () => {

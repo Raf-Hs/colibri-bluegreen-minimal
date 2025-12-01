@@ -1,0 +1,4 @@
+FROM nginx:1.27-alpine
+
+# El conf activo se montará por volumen, solo exponemos el puerto
+EXPOSE 80
