@@ -11,7 +11,7 @@ app.get("/health", (req, res) => {
 // Endpoint 2: info de API
 app.get("/api/info", (req, res) => {
   res.status(200).json({
-    name: "Colibri Minimal API",
+    name: "Colibri Minimal APIIIIIIII",
     env: process.env.NODE_ENV || "development"
   });
 });
