@@ -1,6 +1,6 @@
 services:
   api:
-    image: rafhs/colibri-api:latest
+    image: rafaelsilva333/colibri-api:latest
     container_name: colibri-api
     expose:
       - "4000"
