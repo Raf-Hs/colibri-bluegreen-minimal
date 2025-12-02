@@ -11,7 +11,7 @@ describe("Colibri API integration tests", () => {
   test("GET /api/info debe regresar nombre y entorno", async () => {
     const res = await request(app).get("/api/info");
     expect(res.statusCode).toBe(200);
-    expect(res.body.name).toBe("Colibri Minimal API");
+    expect(res.body.name).toBe("Colibri Minimal APIIIIIIII");
     expect(res.body.env).toBeDefined();
   });
 
