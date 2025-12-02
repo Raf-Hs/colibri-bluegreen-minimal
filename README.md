@@ -24,7 +24,7 @@ npm install
 npm test
 
 ## Levantar con Docker
-docker compose up -d --build
+sudo docker compose up -d --build
 
 ##La API queda disponible en:
 
